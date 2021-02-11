@@ -1,6 +1,10 @@
 """Dummy persistors"""
+import uuid
+from typing import Dict
+from typing import Iterable
+from typing import Optional
+from typing import Tuple
 from uuid import UUID
-from typing import Dict, Iterable, Optional, Tuple
 
 from .models import BookRequest
 
@@ -48,9 +52,13 @@ books: Dict[int, str] = {
     41: "The Shepherd's Crown",
 }
 
+book_requests: Dict[UUID, BookRequest] = {}
+
+
 def get_all_books() -> Iterable[Tuple[int, str]]:
     """Get all books."""
     return books.items()
+
 
 def get_book_by_title(title: str) -> Optional[Tuple[int, str]]:
     """Return the book with the given title or None if not found."""
@@ -60,4 +68,17 @@ def get_book_by_title(title: str) -> Optional[Tuple[int, str]]:
     return None
 
 
-book_requests: Dict[UUID, BookRequest] = {}
+def add_request(book_request: BookRequest) -> BookRequest:
+    """Add a request to the db."""
+    book_requests[book_request.uid] = book_request
+    return book_request
+
+
+def get_request_by_id(uid: uuid.UUID) -> Optional[BookRequest]:
+    """Get an existing request entry from the db."""
+    return book_requests.get(uid, None)
+
+
+def delete_request_by_id(uid: uuid.UUID) -> Optional[BookRequest]:
+    """Delete an existing request entry from the db."""
+    return book_requests.pop(uid, None)

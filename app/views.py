@@ -1,7 +1,8 @@
 import uuid
-from typing import Any, Tuple
+from typing import Any
 from typing import List
 from typing import Optional
+from typing import Tuple
 
 from fastapi import APIRouter
 from fastapi import Body
@@ -12,7 +13,6 @@ from pydantic.networks import EmailStr
 
 from . import models
 from . import services
-
 
 router = APIRouter()
 
