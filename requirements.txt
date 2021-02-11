@@ -1,5 +1,4 @@
 black
-mutmut
 mypy
 pytest
 pydantic[email]
