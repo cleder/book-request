@@ -2,7 +2,6 @@ import datetime
 import uuid
 from typing import List
 from typing import Optional
-from typing import Tuple
 
 from .models import Book
 from .models import BookRequest
