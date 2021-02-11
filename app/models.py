@@ -18,3 +18,16 @@ class BookRequest(BookCreateRequest):
 
     timestamp: datetime.datetime
     uid: uuid.UUID
+
+
+class Book(BaseModel):
+    """Book, has an id and a title."""
+
+    pk: int
+    title: str
+
+
+class Message(BaseModel):
+    """Error Message."""
+
+    detail: str

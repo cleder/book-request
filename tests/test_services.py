@@ -2,14 +2,13 @@
 import uuid
 from datetime import datetime
 
-import pytest
-
 from app import persistors
 from app import services
 
 
 def test_list_books():
-    assert services.list_books()[0] == (1, "The Colour of Magic")
+    assert services.list_books()[0].pk == 1
+    assert services.list_books()[0].title == "The Colour of Magic"
 
 
 def test_list_books_len():
@@ -64,3 +63,27 @@ def test_delete_request():
     assert request.timestamp == datetime(2000, 12, 31)
     assert request.uid == a_request.uid
     assert request.uid not in persistors.book_requests.keys()
+
+
+def test_list_requests():
+    persistors.book_requests = {}
+    a_request = persistors.BookRequest(
+        uid=uuid.uuid4(),
+        title="XXX",
+        email="me@example.test",
+        timestamp=datetime(2000, 12, 31),
+    )
+    persistors.book_requests[a_request.uid] = a_request
+    b_request = persistors.BookRequest(
+        uid=uuid.uuid4(),
+        title="XXX",
+        email="me@example.test",
+        timestamp=datetime(2000, 12, 31),
+    )
+    persistors.book_requests[b_request.uid] = b_request
+
+    requests = services.list_requests()
+
+    assert len(requests) == 2
+
+    assert requests[0] == a_request

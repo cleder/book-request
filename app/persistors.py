@@ -6,6 +6,7 @@ from typing import Optional
 from typing import Tuple
 from uuid import UUID
 
+from .models import Book
 from .models import BookRequest
 
 books: Dict[int, str] = {
@@ -55,9 +56,9 @@ books: Dict[int, str] = {
 book_requests: Dict[UUID, BookRequest] = {}
 
 
-def get_all_books() -> Iterable[Tuple[int, str]]:
+def get_all_books() -> Iterable[Book]:
     """Get all books."""
-    return books.items()
+    return [Book(pk=k, title=v) for k, v in books.items()]
 
 
 def get_book_by_title(title: str) -> Optional[Tuple[int, str]]:
@@ -82,3 +83,8 @@ def get_request_by_id(uid: uuid.UUID) -> Optional[BookRequest]:
 def delete_request_by_id(uid: uuid.UUID) -> Optional[BookRequest]:
     """Delete an existing request entry from the db."""
     return book_requests.pop(uid, None)
+
+
+def get_all_requests() -> Iterable[BookRequest]:
+    """Return the list off all requests made."""
+    return book_requests.values()

@@ -4,17 +4,19 @@ from typing import List
 from typing import Optional
 from typing import Tuple
 
+from .models import Book
 from .models import BookRequest
 from .persistors import add_request
 from .persistors import delete_request_by_id
 from .persistors import get_all_books
+from .persistors import get_all_requests
 from .persistors import get_book_by_title
 from .persistors import get_request_by_id
 
 
-def list_books() -> List[Tuple[int, str]]:
+def list_books() -> List[Book]:
     """Return a list of books in the db."""
-    return list(get_all_books())
+    return get_all_books()
 
 
 def create_request(book: str, email: str) -> Optional[BookRequest]:
@@ -30,6 +32,11 @@ def create_request(book: str, email: str) -> Optional[BookRequest]:
 def get_request(uid: uuid.UUID) -> Optional[BookRequest]:
     """Get a book request."""
     return get_request_by_id(uid)
+
+
+def list_requests() -> List[BookRequest]:
+    """Return all the requests in the db."""
+    return list(get_all_requests())
 
 
 def delete_request(uid: uuid.UUID) -> Optional[BookRequest]:
