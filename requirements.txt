@@ -31,4 +31,5 @@ pip-check
 pytest
 pytest-cov
 radon
+schemathesis
 yamllint
