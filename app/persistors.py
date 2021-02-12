@@ -2,6 +2,7 @@
 import uuid
 from typing import Dict
 from typing import Iterable
+from typing import List
 from typing import Optional
 from typing import Tuple
 from uuid import UUID
@@ -56,7 +57,7 @@ books: Dict[int, str] = {
 book_requests: Dict[UUID, BookRequest] = {}
 
 
-def get_all_books() -> Iterable[Book]:
+def get_all_books() -> List[Book]:
     """Get all books."""
     return [Book(pk=k, title=v) for k, v in books.items()]
 
