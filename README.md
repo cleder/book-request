@@ -4,6 +4,11 @@ A small app to evaluate FastApi
 
 I chose FastAPI over Flask because I wanted to try FastApi and testing with schemathesis.
 
+## Installation
+Create a virtualenvironment with python 3.8 or 3.9.
+Install the reequirements with `pip install -r requirements.txt`.
+Run the application with `uvicorn app:app` and goto `http://localhost:8000/docs`
+
 ## Add Request Endpoint
 This allows a user to request a particular book, and returns the request object along with an id
 by which it can be referred to. Ensure email is of a valid format, and that title exists in our

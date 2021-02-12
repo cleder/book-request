@@ -26,15 +26,15 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install flake8 pytest
         pip install -r requirements.txt
     - name: Lint with flake8 and black
       run: |
-        flake8 app tests --max-line-length=88
+        flake8 app
+        flake8 tests --ignore=S101,I900
         black --check app tests
     - name: Test with pytest
       run: |
-        pytest --cov tests
+        pytest --cov=app --cov=tests tests
     - name: Type check with mypy
       run: |
         mypy app
