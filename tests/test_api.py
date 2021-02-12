@@ -17,7 +17,7 @@ schema = from_asgi("/openapi.json", app)
 
 def book_request_fixture():
     """Create some request to sample from."""
-    for i in range(5):
+    for i in range(2):
         br = BookRequest(
             uid=uuid.uuid4(),
             title=f"t{i}",
@@ -53,7 +53,7 @@ def test_request_add_valid(data, case):
 @schema.parametrize(endpoint="/request/", method="DELETE")
 @schema.given(data=st.data())
 def test_request_del_uuid(data, case):
-    """Retuen a 404 when called with a uuid not in db."""
+    """Return a 404 when called with a uuid not in db."""
     case.path_parameters["item_id"] = data.draw(st.uuids())
 
     response = case.call_asgi(app=app)
@@ -65,7 +65,7 @@ def test_request_del_uuid(data, case):
 @schema.parametrize(endpoint="/request/", method="DELETE")
 @schema.given(data=st.data())
 def test_request_del_valid_uuid(data, case):
-    """Retuen a 204 when called with a uuid in db."""
+    """Return a 204 when called with a uuid in db."""
     case.path_parameters["item_id"] = data.draw(
         st.sampled_from(list(book_request_fixture())),
     )
@@ -79,7 +79,7 @@ def test_request_del_valid_uuid(data, case):
 @schema.parametrize(endpoint="/request/", method="GET")
 @schema.given(data=st.data())
 def test_request_get_uuid(data, case):
-    """Retuen a 404 when called with a uuid not in db."""
+    """Return a 404 when called with a uuid not in db."""
     if not case.path_parameters:
         return
     case.path_parameters["item_id"] = data.draw(st.uuids())
