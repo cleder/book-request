@@ -1,3 +1,4 @@
+"""Services to hold the business logic independent from the views."""
 import datetime
 import uuid
 from typing import List
@@ -23,7 +24,10 @@ def create_request(book: str, email: str) -> Optional[BookRequest]:
     if not get_book_by_title(book):
         return None
     book_request = BookRequest(
-        title=book, email=email, uid=uuid.uuid4(), timestamp=datetime.datetime.now()
+        title=book,
+        email=email,
+        uid=uuid.uuid4(),
+        timestamp=datetime.datetime.now(),
     )
     return add_request(book_request)
 

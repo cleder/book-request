@@ -2,7 +2,7 @@
 
 A small app to evaluate FastApi
 
-I chose FastAPI over Flask because I wanted to try FastApi
+I chose FastAPI over Flask because I wanted to try FastApi and testing with schemathesis.
 
 ## Add Request Endpoint
 This allows a user to request a particular book, and returns the request object along with an id

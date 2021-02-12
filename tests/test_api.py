@@ -12,6 +12,7 @@ schema = from_asgi("/openapi.json", app)
 
 @schema.parametrize()
 def test_api(case):
+    """Check all endpoints to conform to the schema."""
     response = case.call_asgi()
     case.validate_response(response)
 

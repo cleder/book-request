@@ -7,26 +7,32 @@ from app import services
 
 
 def test_list_books():
+    """Return all books."""
     assert services.list_books()[0].pk == 1
     assert services.list_books()[0].title == "The Colour of Magic"
 
 
 def test_list_books_len():
+    """Assert that we have the right ammount of books."""
     assert len(services.list_books()) == 41
 
 
 def test_create_request_no_book_for_title():
+    """Return None if a book request cannot be created."""
     assert services.create_request("no such tile", "lala") is None
 
 
 def test_create_request():
+    """Test that a book request is created when book exists and valid email."""
     request = services.create_request("Mort", "me@example.test")
+
     assert request.email == "me@example.test"
     assert request.title == "Mort"
     assert persistors.book_requests[request.uid] == request
 
 
 def test_get_request():
+    """Get a book."""
     a_request = persistors.BookRequest(
         uid=uuid.uuid4(),
         title="XXX",
@@ -44,10 +50,12 @@ def test_get_request():
 
 
 def test_get_request_not_found():
+    """Return none when the request is not found."""
     assert services.get_request(uuid.uuid4()) is None
 
 
 def test_delete_request():
+    """Delete a request."""
     a_request = persistors.BookRequest(
         uid=uuid.uuid4(),
         title="XXX",
@@ -66,6 +74,7 @@ def test_delete_request():
 
 
 def test_list_requests():
+    """List all requests."""
     persistors.book_requests = {}
     a_request = persistors.BookRequest(
         uid=uuid.uuid4(),
@@ -85,5 +94,4 @@ def test_list_requests():
     requests = services.list_requests()
 
     assert len(requests) == 2
-
     assert requests[0] == a_request

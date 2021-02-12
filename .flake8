@@ -1,0 +1,3 @@
+[flake8]
+ignore = S101, I900
+max-line-length = 88

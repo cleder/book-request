@@ -28,12 +28,21 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest
         pip install -r requirements.txt
-    - name: Lint with flake8
+    - name: Lint with flake8 and black
       run: |
         flake8 app tests --max-line-length=88
+        black --check app tests
     - name: Test with pytest
       run: |
-        pytest tests
+        pytest --cov tests
     - name: Type check with mypy
       run: |
         mypy app
+    - name: Security check with bandit
+      run: |
+        bandit app
+    - name: Complexity checks
+      run: |
+        radon cc --average --total-average app
+        radon mi app
+        lizard -l python -w app

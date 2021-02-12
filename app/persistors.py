@@ -1,4 +1,4 @@
-"""Dummy persistors"""
+"""Dummy persistors."""
 import uuid
 from typing import Dict
 from typing import Iterable
