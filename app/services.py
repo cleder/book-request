@@ -31,10 +31,7 @@ def create_request(book: str, email: str) -> Optional[BookRequest]:
         uid=uuid.uuid4(),
         timestamp=datetime.datetime.now(),
     )
-    result = add_request(cast(BookRequestDict, book_request.dict()))
-    if result:
-        return BookRequest(**result)
-    return None
+    return BookRequest(**add_request(cast(BookRequestDict, book_request.dict())))
 
 
 def get_request(uid: uuid.UUID) -> Optional[BookRequest]:
