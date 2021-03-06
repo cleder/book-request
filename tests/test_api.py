@@ -2,13 +2,13 @@
 import datetime
 import uuid
 
-from email_validator import EmailNotValidError
+from email_validator import EmailNotValidError  # type: ignore
 from email_validator import validate_email
 from hypothesis import strategies as st
 from schemathesis.loaders import from_asgi
 
 from app.main import app
-from app.persistors import BookRequest
+from app.persistors import BookRequestDict
 from app.persistors import book_requests
 from app.persistors import books
 
@@ -18,14 +18,14 @@ schema = from_asgi("/openapi.json", app)
 def book_request_fixture():
     """Create some request to sample from."""
     for i in range(2):
-        br = BookRequest(
-            uid=uuid.uuid4(),
-            title=f"t{i}",
-            email=f"a{i}@example.test",
-            timestamp=datetime.datetime.now(),
-        )
-        book_requests[br.uid] = br
-        yield br.uid
+        br: BookRequestDict = {
+            "uid": uuid.uuid4(),
+            "title": f"t{i}",
+            "email": f"a{i}@example.test",
+            "timestamp": datetime.datetime.now(),
+        }
+        book_requests[br["uid"]] = br
+        yield br["uid"]
 
 
 @schema.parametrize()

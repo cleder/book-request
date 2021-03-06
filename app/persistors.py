@@ -1,14 +1,13 @@
 """Dummy persistors."""
+import datetime
 import uuid
 from typing import Dict
 from typing import Iterable
-from typing import List
 from typing import Optional
 from typing import Tuple
 from uuid import UUID
 
-from .models import Book
-from .models import BookRequest
+from typing_extensions import TypedDict
 
 books: Dict[int, str] = {
     1: "The Colour of Magic",
@@ -54,12 +53,18 @@ books: Dict[int, str] = {
     41: "The Shepherd's Crown",
 }
 
-book_requests: Dict[UUID, BookRequest] = {}
+
+BookRequestDict = TypedDict(
+    "BookRequestDict",
+    {"title": str, "email": str, "timestamp": datetime.datetime, "uid": UUID},
+)
+
+book_requests: Dict[UUID, BookRequestDict] = {}
 
 
-def get_all_books() -> List[Book]:
+def get_all_books() -> Iterable[Tuple[int, str]]:
     """Get all books."""
-    return [Book(pk=k, title=v) for k, v in books.items()]
+    return books.items()
 
 
 def get_book_by_title(title: str) -> Optional[Tuple[int, str]]:
@@ -70,22 +75,22 @@ def get_book_by_title(title: str) -> Optional[Tuple[int, str]]:
     return None
 
 
-def add_request(book_request: BookRequest) -> BookRequest:
+def add_request(book_request: BookRequestDict) -> BookRequestDict:
     """Add a request to the db."""
-    book_requests[book_request.uid] = book_request
+    book_requests[book_request["uid"]] = book_request
     return book_request
 
 
-def get_request_by_id(uid: uuid.UUID) -> Optional[BookRequest]:
+def get_request_by_id(uid: uuid.UUID) -> Optional[BookRequestDict]:
     """Get an existing request entry from the db."""
     return book_requests.get(uid, None)
 
 
-def delete_request_by_id(uid: uuid.UUID) -> Optional[BookRequest]:
+def delete_request_by_id(uid: uuid.UUID) -> Optional[BookRequestDict]:
     """Delete an existing request entry from the db."""
     return book_requests.pop(uid, None)
 
 
-def get_all_requests() -> Iterable[BookRequest]:
+def get_all_requests() -> Iterable[BookRequestDict]:
     """Return the list off all requests made."""
     return book_requests.values()

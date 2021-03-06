@@ -3,9 +3,11 @@ import datetime
 import uuid
 from typing import List
 from typing import Optional
+from typing import cast
 
 from .models import Book
 from .models import BookRequest
+from .persistors import BookRequestDict
 from .persistors import add_request
 from .persistors import delete_request_by_id
 from .persistors import get_all_books
@@ -16,7 +18,7 @@ from .persistors import get_request_by_id
 
 def list_books() -> List[Book]:
     """Return a list of books in the db."""
-    return get_all_books()
+    return [Book(pk=k, title=v) for k, v in get_all_books()]
 
 
 def create_request(book: str, email: str) -> Optional[BookRequest]:
@@ -29,19 +31,28 @@ def create_request(book: str, email: str) -> Optional[BookRequest]:
         uid=uuid.uuid4(),
         timestamp=datetime.datetime.now(),
     )
-    return add_request(book_request)
+    result = add_request(cast(BookRequestDict, book_request.dict()))
+    if result:
+        return BookRequest(**result)
+    return None
 
 
 def get_request(uid: uuid.UUID) -> Optional[BookRequest]:
     """Get a book request."""
-    return get_request_by_id(uid)
+    bookrequest = get_request_by_id(uid)
+    if bookrequest:
+        return BookRequest(**bookrequest)
+    return None
 
 
 def list_requests() -> List[BookRequest]:
     """Return all the requests in the db."""
-    return list(get_all_requests())
+    return [BookRequest(**bookrequest) for bookrequest in get_all_requests()]
 
 
 def delete_request(uid: uuid.UUID) -> Optional[BookRequest]:
     """Delete a book request."""
-    return delete_request_by_id(uid)
+    bookrequest = delete_request_by_id(uid)
+    if bookrequest:
+        return BookRequest(**bookrequest)
+    return None
