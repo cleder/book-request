@@ -33,3 +33,5 @@ pytest-cov
 radon
 schemathesis
 yamllint
+setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability
+werkzeug>=2.3.8 # not directly required, pinned by Snyk to avoid a vulnerability
